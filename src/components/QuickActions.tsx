@@ -1,6 +1,7 @@
 import { Mail, MessageSquare, Phone, Share } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { SITE_URL } from "@/lib/site"
 
 const tileBase =
   "flex flex-col items-center gap-[7px] rounded-lg border no-underline transition-[transform,border-color,background,box-shadow] duration-200 ease-card px-1.5 pt-3.5 pb-[11px] hover:-translate-y-0.5 active:scale-[.97]"
@@ -13,7 +14,7 @@ function connectSmsHref() {
   const isIOS =
     /iPad|iPhone|iPod/.test(navigator.userAgent) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
-  const body = encodeURIComponent(`${connectMessage} ${location.origin + location.pathname}`)
+  const body = encodeURIComponent(`${connectMessage} ${SITE_URL}`)
   return `sms:+19412846466${isIOS ? "&" : "?"}body=${body}`
 }
 

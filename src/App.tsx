@@ -15,10 +15,11 @@ import { Services } from '@/components/Services'
 import { Socials } from '@/components/Socials'
 import { Testimonials } from '@/components/Testimonials'
 import { Toast, useToast } from '@/components/Toast'
+import { SITE_URL } from '@/lib/site'
 
 /* Share — three tiers: native sheet, async clipboard, execCommand fallback. */
 async function shareCard(showToast: (message: string) => void) {
-  const url = location.origin + location.pathname // strips query/hash
+  const url = SITE_URL
   const data = {
     title: 'David Whitmire — Pavers, Palms, & Paradise',
     text: 'Connect with David Whitmire of Pavers, Palms, & Paradise',
