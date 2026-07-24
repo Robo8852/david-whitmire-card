@@ -5,16 +5,32 @@ import { cn } from "@/lib/utils"
 const tileBase =
   "flex flex-col items-center gap-[7px] rounded-lg border no-underline transition-[transform,border-color,background,box-shadow] duration-200 ease-card px-1.5 pt-3.5 pb-[11px] hover:-translate-y-0.5 active:scale-[.97]"
 
+const connectMessage = "Hi David, I found your card and I'd like to connect."
+
+function connectSmsHref() {
+  // iOS wants `sms:number&body=`, Android/RFC 5724 want `sms:number?body=`.
+  // iPadOS reports itself as MacIntel, hence the maxTouchPoints check.
+  const isIOS =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+  const body = encodeURIComponent(`${connectMessage} ${location.origin + location.pathname}`)
+  return `sms:+19412846466${isIOS ? "&" : "?"}body=${body}`
+}
+
 const actions = [
   { label: "Email", href: "mailto:paverspap@gmail.com", Icon: Mail },
   { label: "Call", href: "tel:+19412846466", Icon: Phone },
   { label: "Text", href: "sms:+19412846466", Icon: MessageSquare },
   {
     label: "Connect",
-    // NOTE: `&body=` (no `?`) is the iOS sms: convention — deliberate, keep as-is.
-    href: "sms:+19412846466&body=Hi%20David%2C%20I%20found%20your%20card%20and%20I%27d%20like%20to%20connect.",
+    // Static iOS-style fallback for no-JS; onClick rebuilds it per-platform with the live URL.
+    href: `sms:+19412846466&body=${encodeURIComponent(connectMessage)}`,
     Icon: Share,
     primary: true,
+    onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault()
+      location.href = connectSmsHref()
+    },
   },
 ] as const
 
@@ -27,6 +43,7 @@ export function QuickActions() {
           <a
             key={label}
             href={href}
+            onClick={"onClick" in rest ? rest.onClick : undefined}
             className={cn(
               tileBase,
               primary
