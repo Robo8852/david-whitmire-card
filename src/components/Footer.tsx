@@ -5,15 +5,8 @@ export function Footer() {
         © {new Date().getFullYear()} Pavers, Palms, &amp; Paradise · Sarasota / Bradenton, FL
       </div>
       <div className="mt-2 opacity-70">
-        Card by{" "}
-        <a
-          className="font-semibold text-primary no-underline"
-          href="https://costadelsolweb.com"
-          target="_blank"
-          rel="noopener"
-        >
-          Proclaim Agency
-        </a>
+        {/* Deliberately not a link yet — see NOTES.md at the repo root. */}
+        Card by <span className="font-semibold text-primary">Proclaim Agency</span>
       </div>
     </footer>
   )
