@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d0f12">
+<title>David Whitmire — Pavers, Palms, & Paradise</title>
+<meta name="description" content="David Whitmire, Owner of Pavers, Palms, & Paradise — outdoor living contractor in Sarasota/Bradenton, FL. Patios, driveways, pool decks, fire pits & more.">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="David Whitmire — Pavers, Palms, & Paradise">
+<meta property="og:description" content="Family-owned outdoor living contractor in Sarasota/Bradenton. Tap to connect.">
+<!-- TODO(deploy): og:image must become an ABSOLUTE URL (e.g. https://yourdomain.com/assets/profile.png) — social scrapers ignore relative paths. -->
+<meta property="og:image" content="assets/profile.png">
+<link rel="icon" href="assets/logo.png">
+<link rel="apple-touch-icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+<style>
+  /* ===== shadcn-style design tokens ===== */
+  :root {
+    /* color */
+    --background: hsl(216 16% 6%);            /* #0d0f12 */
+    --foreground: hsl(214 26% 95%);           /* #eef1f5 */
+    --card: hsl(218 15% 10%);                 /* #16191e */
+    --card-elevated: hsl(220 17% 14%);        /* #1d2129 */
+    --primary: hsl(30 100% 56%);              /* #FF8F1D */
+    --primary-deep: hsl(31 94% 45%);          /* #e07607 */
+    --primary-foreground: hsl(0 0% 100%);
+    --muted-foreground: hsl(215 12% 65%);     /* #9aa3b0 */
+    --border: hsl(0 0% 100% / .08);
+    --ring: color-mix(in srgb, var(--primary) 50%, transparent);
+    /* radius scale */
+    --radius: 1rem;
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-lg: calc(var(--radius) + 2px);
+    /* shadows */
+    --shadow-sm: 0 2px 6px hsl(0 0% 0% / .5);
+    --shadow: 0 10px 30px hsl(0 0% 0% / .55);
+    --shadow-lg: 0 0 80px hsl(0 0% 0% / .6);
+    --shadow-primary: 0 6px 20px color-mix(in srgb, var(--primary) 25%, transparent);
+    /* motion */
+    --transition: 200ms cubic-bezier(.2,.8,.2,1);
+    /* layout */
+    --gutter: 22px;
+    --gap: 12px;
+    --gap-sm: 10px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--background);
+    color: var(--foreground);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* subtle page texture behind the card */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(60% 40% at 50% 0%, color-mix(in srgb, var(--primary) 9%, transparent), transparent 70%),
+      radial-gradient(50% 30% at 80% 100%, color-mix(in srgb, var(--primary) 5%, transparent), transparent 70%);
+    pointer-events: none;
+  }
+  .phone {
+    position: relative;
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--card);
+    min-height: 100dvh;
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* ===== Interactive states (touch-first) ===== */
+  a, button { -webkit-tap-highlight-color: transparent; }
+  :is(a, button, .tile):focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--ring);
+  }
+  :is(.action, .socials a, .btn, .tile, .gallery a):active {
+    transform: scale(.97);
+  }
+
+  /* ===== Hero ===== */
+  .hero { position: relative; }
+  .hero .cover {
+    width: 100%; aspect-ratio: 2.2 / 1; object-fit: cover; display: block;
+    filter: saturate(1.05);
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--background) 15%, transparent) 0%,
+      color-mix(in srgb, var(--card) 0%, transparent) 40%,
+      var(--card) 98%);
+  }
+  .hero .logo {
+    position: absolute; top: 14px; left: 14px; z-index: 2;
+    height: 46px; padding: 6px 10px;
+    background: color-mix(in srgb, var(--background) 55%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+  }
+  .avatar-wrap {
+    position: relative; z-index: 3;
+    margin: -64px auto 0; width: 128px; height: 128px;
+    border-radius: 50%;
+    padding: 4px;
+    background: conic-gradient(from 210deg,
+      var(--primary),
+      color-mix(in srgb, var(--primary) 55%, var(--primary-foreground)),
+      var(--primary-deep),
+      var(--primary));
+    box-shadow: var(--shadow);
+  }
+  .avatar-wrap img {
+    width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+    border: 3px solid var(--card); display: block;
+  }
+
+  .identity { text-align: center; padding: 16px var(--gutter) 6px; position: relative; z-index: 2; }
+  .identity h1 { font-size: 1.65rem; font-weight: 800; letter-spacing: -.02em; }
+  .identity .company { color: var(--primary); font-weight: 600; font-size: 1rem; margin-top: 2px; }
+  .identity .role {
+    display: inline-block; margin-top: 8px; font-size: .72rem; font-weight: 600;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--muted-foreground);
+    border: 1px solid var(--border); border-radius: 999px; padding: 4px 14px;
+  }
+
+  /* ===== Quick actions ===== */
+  .actions {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap-sm);
+    padding: 20px var(--gutter) 6px;
+  }
+  .action {
+    display: flex; flex-direction: column; align-items: center; gap: 7px;
+    text-decoration: none; color: var(--foreground);
+    background: var(--card-elevated); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px 6px 11px;
+    transition: transform var(--transition), border-color var(--transition),
+                background var(--transition), box-shadow var(--transition);
+  }
+  .action:hover { transform: translateY(-2px); border-color: var(--ring); }
+  .action svg { width: 22px; height: 22px; stroke: var(--primary); }
+  .action span { font-size: .7rem; font-weight: 600; letter-spacing: .04em; color: var(--muted-foreground); }
+
+  .socials { display: flex; justify-content: center; gap: 14px; padding: 16px 0 4px; }
+  .socials a {
+    display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%;
+    background: var(--card-elevated); border: 1px solid var(--border);
+    transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  }
+  .socials a:hover { transform: translateY(-2px); border-color: var(--ring); }
+  .socials svg { width: 18px; height: 18px; fill: var(--foreground); }
+
+  .cta-stack { display: flex; flex-direction: column; gap: var(--gap-sm); padding: 18px var(--gutter) 8px; }
+  .cta-stack.flush, .flush { padding-left: 0; padding-right: 0; }
+  .btn {
+    display: block; text-align: center; text-decoration: none; cursor: pointer;
+    font-family: inherit; font-size: .82rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    line-height: 1.4;
+    padding: 15px; border-radius: var(--radius-sm); border: 1px solid var(--border);
+    color: var(--foreground); background: var(--card-elevated); width: 100%;
+    transition: transform var(--transition), filter var(--transition), box-shadow var(--transition);
+  }
+  .btn:hover { transform: translateY(-1px); filter: brightness(1.1); }
+  .btn.ghost { background: transparent; border-color: var(--ring); color: var(--primary); }
+  .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-sm); }
+
+  /* ===== Unified primary treatment (actions + buttons) ===== */
+  .action.primary, .btn.solid {
+    background: linear-gradient(160deg, var(--primary), var(--primary-deep));
+    border: 1px solid transparent;
+    color: var(--primary-foreground);
+    box-shadow: var(--shadow-primary);
+  }
+  .action.primary svg { stroke: var(--primary-foreground); }
+  .action.primary span { color: color-mix(in srgb, var(--primary-foreground) 90%, transparent); }
+  .action.primary:focus-visible, .btn.solid:focus-visible {
+    box-shadow: var(--shadow-primary), 0 0 0 3px var(--ring);
+  }
+
+  /* ===== Sections ===== */
+  section { padding: 34px var(--gutter) 6px; }
+  .sec-head { text-align: center; margin-bottom: 18px; }
+  .sec-head .kicker {
+    font-size: .68rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--primary);
+  }
+  .sec-head h2 { font-size: 1.35rem; font-weight: 800; letter-spacing: -.02em; margin-top: 4px; }
+  .sec-head .rule {
+    width: 44px; height: 3px; border-radius: 2px; margin: 12px auto 0;
+    background: linear-gradient(90deg, var(--primary), var(--primary-deep));
+  }
+  .prose { color: var(--muted-foreground); font-size: .93rem; }
+  .prose p + p { margin-top: 12px; }
+  .prose strong { color: var(--foreground); }
+
+  /* ===== Services ===== */
+  .services { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+  .tile {
+    position: relative; display: block; border-radius: var(--radius); overflow: hidden;
+    aspect-ratio: 4 / 3; text-decoration: none; border: 1px solid var(--border);
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .tile.wide { grid-column: 1 / -1; aspect-ratio: 21 / 9; }
+  .tile img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform var(--transition);
+  }
+  .tile:hover img { transform: scale(1.06); }
+  .tile::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--background) 0%, transparent) 35%,
+      color-mix(in srgb, var(--background) 85%, transparent) 100%);
+  }
+  .tile b {
+    position: absolute; left: 12px; right: 12px; bottom: 10px; z-index: 2;
+    color: var(--primary-foreground); font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    text-shadow: var(--shadow-sm);
+  }
+  .tile b::after {
+    content: "→"; margin-left: 6px; color: var(--primary);
+    display: inline-block; transition: transform var(--transition);
+  }
+  .tile:hover b::after { transform: translateX(4px); }
+
+  /* ===== About David ===== */
+  .bio-photo {
+    width: 100%; border-radius: var(--radius-lg); display: block; margin-bottom: 16px;
+    border: 1px solid var(--border);
+  }
+
+  /* ===== Testimonials ===== */
+  .quotes-shell { position: relative; }
+  .quotes-shell::after {
+    /* scroll affordance: subtle edge fade on the right */
+    content: ""; position: absolute; top: 0; right: 0; bottom: 14px; width: 44px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--card) 0%, transparent), var(--card));
+    pointer-events: none;
+  }
+  .quotes {
+    display: flex; gap: var(--gap); overflow-x: auto; scroll-snap-type: x mandatory;
+    padding: 4px 6% 14px; scroll-padding-inline: 6%; scrollbar-width: none;
+  }
+  .quotes::-webkit-scrollbar { display: none; }
+  .quote {
+    flex: 0 0 88%; scroll-snap-align: center;
+    background: var(--card-elevated); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 22px 20px 18px; position: relative;
+  }
+  .quote::before {
+    content: "“"; font-family: 'Playfair Display', serif; font-style: italic;
+    position: absolute; top: 2px; left: 14px; font-size: 3rem; color: var(--primary); opacity: .8; line-height: 1;
+  }
+  .quote p { font-family: 'Playfair Display', serif; font-style: italic; font-size: .95rem; color: var(--foreground); padding-top: 14px; }
+  .quote cite {
+    display: block; margin-top: 12px; font-style: normal; font-size: .75rem; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--primary);
+  }
+
+  /* ===== Gallery ===== */
+  .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+  .gallery a {
+    display: block; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border);
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .gallery a:nth-child(1) { grid-column: 1 / -1; }
+  .gallery img { width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; transition: transform var(--transition); }
+  .gallery a:nth-child(1) img { aspect-ratio: 16 / 8; }
+  .gallery a:hover img { transform: scale(1.05); }
+
+  /* ===== Lightbox ===== */
+  .lightbox {
+    border: none; padding: 0; background: transparent;
+    max-width: min(92vw, 900px); max-height: 90dvh;
+    margin: auto; cursor: zoom-out;
+  }
+  .lightbox::backdrop {
+    background: hsl(0 0% 0% / .8);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .lightbox img {
+    display: block; max-width: 100%; max-height: 90dvh; margin: 0 auto;
+    border-radius: var(--radius-lg); box-shadow: var(--shadow);
+  }
+
+  footer {
+    text-align: center; padding: 36px var(--gutter) 30px; color: var(--muted-foreground); font-size: .75rem;
+  }
+  footer .powered { margin-top: 8px; opacity: .7; }
+  footer .powered a { color: var(--primary); text-decoration: none; font-weight: 600; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(80px);
+    background: color-mix(in srgb, var(--primary) 78%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    color: var(--primary-foreground); font-size: .8rem; font-weight: 600;
+    padding: 10px 20px; border-radius: 999px; opacity: 0;
+    transition: transform var(--transition), opacity var(--transition); z-index: 50;
+    box-shadow: var(--shadow);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <!-- Hero -->
+  <div class="hero">
+    <img class="logo" src="assets/logo.png" alt="Pavers, Palms, & Paradise logo">
+    <img class="cover" src="assets/cover.png" alt="Paver patio project">
+  </div>
+  <div class="avatar-wrap"><img src="assets/profile.png" alt="David Whitmire"></div>
+
+  <div class="identity">
+    <h1>David Whitmire</h1>
+    <div class="company">Pavers, Palms, &amp; Paradise</div>
+    <div class="role">Owner</div>
+  </div>
+
+  <!-- Quick actions -->
+  <div class="actions">
+    <a class="action" href="mailto:paverspap@gmail.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+      <span>Email</span>
+    </a>
+    <a class="action" href="tel:+19412846466">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <span>Call</span>
+    </a>
+    <a class="action" href="sms:+19412846466">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span>Text</span>
+    </a>
+    <a class="action primary" href="sms:+19412846466&body=Hi%20David%2C%20I%20found%20your%20card%20and%20I%27d%20like%20to%20connect.">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+      <span>Connect</span>
+    </a>
+  </div>
+
+  <!-- Socials -->
+  <div class="socials">
+    <a href="https://www.facebook.com/paverspalmsparadise" target="_blank" rel="noopener" aria-label="Facebook">
+      <svg viewBox="0 0 24 24"><path d="M13.5 21v-8h2.7l.4-3.2h-3.1V7.7c0-.9.3-1.6 1.7-1.6h1.6V3.2c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.4-4 4.1v2.6H7.6V13h2.8v8h3.1z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/paverspalmsparadise" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.9.2 2.3.4.6.2 1 .5 1.4.9.4.4.7.9.9 1.4.2.4.4 1.1.4 2.3.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.2 1.9-.4 2.3-.2.6-.5 1-.9 1.4-.4.4-.9.7-1.4.9-.4.2-1.1.4-2.3.4-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.9-.2-2.3-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.9-.9-1.4-.2-.4-.4-1.1-.4-2.3-.1-1.3-.1-1.6-.1-4.8s0-3.6.1-4.8c.1-1.2.2-1.9.4-2.3.2-.6.5-1 .9-1.4.4-.4.9-.7 1.4-.9.4-.2 1.1-.4 2.3-.4 1.2-.1 1.6-.1 4.8-.1zm0 2c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.2.8-.4.4-.6.7-.8 1.2-.1.4-.3 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.2.4.4.7.6 1.2.8.4.1 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.2-.8.4-.4.6-.7.8-1.2.1-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.2-.4-.4-.7-.6-1.2-.8-.4-.1-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1zm0 3.3a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 7.4a2.9 2.9 0 1 0 0-5.8 2.9 2.9 0 0 0 0 5.8zm5.7-7.6a1.05 1.05 0 1 1-2.1 0 1.05 1.05 0 0 1 2.1 0z"/></svg>
+    </a>
+    <a href="https://www.youtube.com/@paverspalmsparadise" target="_blank" rel="noopener" aria-label="YouTube">
+      <svg viewBox="0 0 24 24"><path d="M23.5 7.2s-.2-1.6-.9-2.3c-.9-.9-1.9-.9-2.4-1C16.9 3.6 12 3.6 12 3.6s-4.9 0-8.2.3c-.5.1-1.5.1-2.4 1-.7.7-.9 2.3-.9 2.3S.3 9.1.3 11v1.8c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.5 1 1.9.2 8.1.3 8.1.3s4.9 0 8.2-.3c.5-.1 1.5-.1 2.4-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8V11c0-1.9-.2-3.8-.2-3.8zM9.7 15.1V8.5l6.4 3.3-6.4 3.3z"/></svg>
+    </a>
+  </div>
+
+  <!-- Primary CTAs -->
+  <div class="cta-stack">
+    <div class="btn-row">
+      <a class="btn solid" id="addContact" href="David-Whitmire.vcf" download="David-Whitmire.vcf">Add to Contacts</a>
+      <button class="btn" type="button" id="shareCard">Share</button>
+    </div>
+    <a class="btn" href="https://paverssrq.com/" target="_blank" rel="noopener">Website</a>
+  </div>
+
+  <!-- About the business -->
+  <section>
+    <div class="sec-head">
+      <div class="kicker">The Company</div>
+      <h2>Pavers, Palms, &amp; Paradise</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="prose">
+      <p>Hello! Thank you for checking out <strong>Pavers, Palms, and Paradise</strong>, a local, family-owned outdoor living contractor with a decade&rsquo;s worth of happy customers in our hometown.</p>
+      <p>We aim to create high-quality, attractive outdoor living spaces where families and friends enjoy making memories.</p>
+      <p>Our purpose is to serve our community by helping our neighbors elevate the value of their homes as we create spaces where they build relationship.</p>
+      <p>Passionate about transforming your outdoor dreams into reality? We can&rsquo;t wait to create your perfect living space!</p>
+    </div>
+    <!-- NOTE(owner): this quote link points at paverspalmsparadise.com while every other link uses paverssrq.com — please confirm which domain is canonical before launch. -->
+    <div class="cta-stack flush">
+      <a class="btn solid" href="https://paverspalmsparadise.com/contact-us/" target="_blank" rel="noopener">Get a Quote</a>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section>
+    <div class="sec-head">
+      <div class="kicker">What We Do</div>
+      <h2>Services</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="services">
+      <a class="tile" href="https://paverssrq.com/services/patio-installation/" target="_blank" rel="noopener"><img src="assets/services/patio.jpg" alt="Patio installation" loading="lazy" decoding="async"><b>Patio Installation</b></a>
+      <a class="tile" href="https://paverssrq.com/services/driveway-installation/" target="_blank" rel="noopener"><img src="assets/services/driveway.jpg" alt="Driveway installation" loading="lazy" decoding="async"><b>Driveway Installation</b></a>
+      <a class="tile" href="https://paverssrq.com/services/walkway-installation/" target="_blank" rel="noopener"><img src="assets/services/walkway.jpg" alt="Walkway installation" loading="lazy" decoding="async"><b>Walkway Installation</b></a>
+      <a class="tile" href="https://paverssrq.com/services/pool-deck/" target="_blank" rel="noopener"><img src="assets/services/pool-deck.jpg" alt="Pool deck" loading="lazy" decoding="async"><b>Pool Deck</b></a>
+      <a class="tile" href="https://paverssrq.com/services/fire-pit/" target="_blank" rel="noopener"><img src="assets/services/fire-pit.jpg" alt="Fire pit" loading="lazy" decoding="async"><b>Fire Pit</b></a>
+      <a class="tile" href="https://paverssrq.com/services/paver-repair/" target="_blank" rel="noopener"><img src="assets/services/paver-repair.jpg" alt="Paver repair" loading="lazy" decoding="async"><b>Paver Repair</b></a>
+      <a class="tile wide" href="https://paverssrq.com/services/outdoor-oasis-overhaul/" target="_blank" rel="noopener"><img src="assets/services/oasis.png" alt="Outdoor oasis overhaul" loading="lazy" decoding="async"><b>Outdoor Oasis Overhaul</b></a>
+    </div>
+  </section>
+
+  <!-- About David -->
+  <section>
+    <div class="sec-head">
+      <div class="kicker">The Owner</div>
+      <h2>About David Whitmire</h2>
+      <div class="rule"></div>
+    </div>
+    <img class="bio-photo" src="assets/profile.png" alt="David Whitmire and his wife" loading="lazy" decoding="async">
+    <div class="prose">
+      <p>Dave has deep roots in the Sarasota/Bradenton area, where his family has lived for generations. He and his wife were married in the same church as their parents and grandparents, and together, they have four children of their own, and have fostered seven others so far.</p>
+      <p>Dave worked his way through college while employed in the auto industry, and later spent 14 years as a teacher at a missionary training center. His desire to serve and uplift others eventually led him to the trades, where he gained extensive experience in residential construction. Throughout his journey, Dave has always been driven by the principle of helping families create and enjoy spaces that truly feel like home.</p>
+      <p>As the owner of a home service contracting business, Dave now merges his passions and skills to assist homeowners in realizing their renovation dreams. With a keen eye for detail, a quick learning ability, and a genuine commitment to serving others, Dave ensures that his customers&rsquo; homes are not only functional, but also cherished spaces. His mission remains the same: to love thy neighbor by transforming their home&ndash;the most important place in their world&ndash;into their favorite place.</p>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section>
+    <div class="sec-head">
+      <div class="kicker">Happy Customers</div>
+      <h2>Testimonials</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="quotes-shell">
+      <div class="quotes">
+        <div class="quote">
+          <p>These guys did such an amazing job on our patio that now whenever any of the properties I manage need flooring I call them first. I wish they could do all the services we need since they do what they say, and do it when they tell you it will be done&hellip;no games.</p>
+          <cite>James S.</cite>
+        </div>
+        <div class="quote">
+          <p>Professional and friendly service. Fast, quality install. We love our beautiful patio!</p>
+          <cite>Jessica W.</cite>
+        </div>
+        <div class="quote">
+          <p>The work speaks for itself, it was designed and executed flawlessly. When someone shows up to work knowing they won&rsquo;t see you again and still treats your belongings like his own, that is what surprised me.</p>
+          <cite>George H.</cite>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section>
+    <div class="sec-head">
+      <div class="kicker">Our Work</div>
+      <h2>Gallery</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="gallery">
+      <a href="assets/gallery/g01.jpg"><img src="assets/gallery/g01.jpg" alt="Project photo" loading="lazy" decoding="async"></a>
+      <a href="assets/gallery/g02.jpg"><img src="assets/gallery/g02.jpg" alt="Project photo" loading="lazy" decoding="async"></a>
+      <a href="assets/gallery/g03.jpg"><img src="assets/gallery/g03.jpg" alt="Project photo" loading="lazy" decoding="async"></a>
+      <a href="assets/gallery/g04.jpg"><img src="assets/gallery/g04.jpg" alt="Project photo" loading="lazy" decoding="async"></a>
+      <a href="assets/gallery/g05.jpg"><img src="assets/gallery/g05.jpg" alt="Project photo" loading="lazy" decoding="async"></a>
+      <a href="assets/gallery/g06.jpg"><img src="assets/gallery/g06.jpg" alt="Project photo" loading="lazy" decoding="async"></a>
+      <a href="assets/gallery/g07.jpg"><img src="assets/gallery/g07.jpg" alt="Project photo" loading="lazy" decoding="async"></a>
+      <a href="assets/gallery/g08.jpg"><img src="assets/gallery/g08.jpg" alt="Project photo" loading="lazy" decoding="async"></a>
+      <a href="assets/gallery/g09.jpg"><img src="assets/gallery/g09.jpg" alt="Project photo" loading="lazy" decoding="async"></a>
+      <a href="assets/gallery/g10.jpg"><img src="assets/gallery/g10.jpg" alt="Project photo" loading="lazy" decoding="async"></a>
+      <a href="assets/gallery/g11.webp"><img src="assets/gallery/g11.webp" alt="Project photo" loading="lazy" decoding="async"></a>
+      <a href="assets/gallery/g12.jpg"><img src="assets/gallery/g12.jpg" alt="Project photo" loading="lazy" decoding="async"></a>
+    </div>
+  </section>
+
+  <!-- Resources -->
+  <section>
+    <div class="sec-head">
+      <div class="kicker">Learn More</div>
+      <h2>Resources</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="cta-stack flush">
+      <a class="btn" href="https://paverssrq.com/service-areas/" target="_blank" rel="noopener">Service Areas</a>
+      <a class="btn ghost" href="https://paverssrq.com/blog/" target="_blank" rel="noopener">Learning Hub</a>
+      <button class="btn solid" type="button" id="shareCard2">Share My Info</button>
+    </div>
+  </section>
+
+  <footer>
+    <div>&copy; <span id="year"></span> Pavers, Palms, &amp; Paradise &middot; Sarasota / Bradenton, FL</div>
+    <div class="powered">Card by <a href="https://costadelsolweb.com" target="_blank" rel="noopener">Costa del Sol Web</a></div>
+  </footer>
+</div>
+
+<dialog class="lightbox" id="lightbox" aria-label="Gallery photo, full size">
+  <img alt="Project photo, full size">
+</dialog>
+
+<div class="toast" id="toast" role="status">Link copied!</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Toast — parameterized message, shared timer
+  let toastTimer;
+  function showToast(message) {
+    const t = document.getElementById('toast');
+    t.textContent = message;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  // Add to Contacts is a static .vcf served next to this page (iOS Safari
+  // cannot download Blob-based vCards). The toast is desktop feedback only.
+  document.getElementById('addContact').addEventListener('click', () => {
+    showToast('Contact ready — open the download');
+  });
+
+  // Share — native sheet where available, clipboard fallback otherwise
+  async function handleShare() {
+    const url = location.origin + location.pathname;
+    const data = {
+      title: 'David Whitmire — Pavers, Palms, & Paradise',
+      text: 'Connect with David Whitmire of Pavers, Palms, & Paradise',
+      url
+    };
+    if (navigator.share) {
+      try {
+        await navigator.share(data);
+        return;
+      } catch (err) {
+        if (err && err.name === 'AbortError') return; // user dismissed the sheet
+        // any other failure falls through to the clipboard path
+      }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast('Link copied!');
+        return;
+      } catch (err) {
+        // insecure context or permission denied — fall through
+      }
+    }
+    let copied = false;
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = url;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      copied = document.execCommand('copy');
+      ta.remove();
+    } catch (err) {
+      copied = false;
+    }
+    showToast(copied ? 'Link copied!' : url);
+  }
+  const shareSafely = () => { handleShare().catch(() => {}); };
+  document.getElementById('shareCard').addEventListener('click', shareSafely);
+  document.getElementById('shareCard2').addEventListener('click', shareSafely);
+
+  // Gallery lightbox — native <dialog>; anchors keep href as no-JS fallback
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.gallery a').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      lightboxImg.src = link.getAttribute('href');
+      lightbox.showModal();
+    });
+  });
+  // click anywhere (including backdrop) closes; Esc is handled natively
+  lightbox.addEventListener('click', () => lightbox.close());
+  lightbox.addEventListener('close', () => lightboxImg.removeAttribute('src'));
+</script>
+</body>
+</html>
