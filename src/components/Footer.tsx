@@ -12,7 +12,7 @@ export function Footer() {
           target="_blank"
           rel="noopener"
         >
-          Costa del Sol Web
+          Proclaim Agency
         </a>
       </div>
     </footer>
